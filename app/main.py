@@ -19,6 +19,24 @@ from app.utils.logging import logger
 async def lifespan(app: FastAPI):
     """Application lifespan handler — startup and shutdown logic."""
     logger.info("Protocol Assistant starting up...")
+    try:
+        from app.core.dependencies import get_vector_store, get_embedding_service
+        from app.core.config import settings
+        from app.rag.ingestion import ingest_documents
+
+        vector_store = get_vector_store()
+        if vector_store.count() == 0:
+            logger.info("ChromaDB collection is empty. Performing automatic initial ingestion...")
+            embedding_service = get_embedding_service()
+            ingest_documents(
+                data_dir=settings.data_dir,
+                embedding_service=embedding_service,
+                vector_store=vector_store,
+                force_reingest=False,
+            )
+            logger.info("Initial ingestion complete.")
+    except Exception as e:
+        logger.warning(f"Startup ingestion check skipped or failed: {e}")
     yield
     logger.info("Protocol Assistant shutting down...")
 

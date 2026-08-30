@@ -49,8 +49,9 @@ VOLUME /app/chroma_data
 # Switch to non-root user
 USER appuser
 
-# Pre-download the embedding model into the container image cache
-RUN HF_HUB_OFFLINE=0 python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
+# Pre-download embedding model into cache and pre-ingest RFCs into ChromaDB
+RUN HF_HUB_OFFLINE=0 python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')" && \
+    python -c "from app.core.config import settings; from app.core.dependencies import get_embedding_service, get_vector_store; from app.rag.ingestion import ingest_documents; ingest_documents(settings.data_dir, get_embedding_service(), get_vector_store())"
 
 # Expose port
 EXPOSE 8000
