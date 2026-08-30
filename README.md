@@ -189,6 +189,30 @@ docker run -d \
   m5teja/protocol-assistant:latest
 ```
 
+## Modifying the App (Source Code or Data Changes)
+
+If you need to change the source code or update the RFCs data (e.g. adding or updating RFCs in `data/rfcs/`), you must rebuild the Docker image locally to bake in those changes.
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/m5teja/cyberlex-india.git
+   cd cyberlex-india
+   ```
+2. **Make your changes:** Add new PDFs to `data/rfcs/` or edit the Python source code.
+3. **Rebuild the image:**
+   The build process will automatically ingest the new PDFs into the ChromaDB vector store inside the image, so no manual ingestion step is required.
+   ```bash
+   docker build -t protocol-assistant:local .
+   ```
+4. **Run your updated local image:**
+   ```bash
+   docker run -d -p 8000:8000 \
+     -e ANTHROPIC_API_KEY="your-anthropic-api-key" \
+     -e GOOGLE_API_KEY="your-google-api-key" \
+     --name protocol-assistant-local \
+     protocol-assistant:local
+   ```
+
 ## Known Limitations
 - **Ingestion Time:** The initial `test_ingest.py` script takes a few minutes to run because it embeds thousands of chunks locally on the CPU.
 - **Context Window:** The conversation history is artificially limited to the last 4 messages to prevent the prompt size from exceeding LLM limits and to keep costs down.
