@@ -155,15 +155,28 @@ docker run -d \
 *Note: The container runs as a non-root user (`appuser`) for security.*
 
 ## Docker Hub Image Information
-The pre-built Docker image is available on Docker Hub.
+The pre-built Docker image is available on Docker Hub and is **100% self-contained** (the embedding model and all 1,101 RFC chunks are pre-baked into the image).
+
 - **Repository:** `m5teja/protocol-assistant`
 - **Tag:** `latest`
 
-To pull and run the pre-built image:
+### Option A: Standalone Run (No Git Clone Required)
+Evaluators can pull and run the container immediately with just an API key:
 ```bash
 docker pull m5teja/protocol-assistant:latest
 
-# Run using your local .env file and persistent chroma_data volume:
+# Run with Gemini:
+docker run -d -p 8000:8000 -e GOOGLE_API_KEY="your-google-api-key" --name protocol-assistant m5teja/protocol-assistant:latest
+
+# Or run with Claude:
+docker run -d -p 8000:8000 -e ANTHROPIC_API_KEY="your-anthropic-api-key" --name protocol-assistant m5teja/protocol-assistant:latest
+```
+
+### Option B: Run with Cloned Repository (.env File)
+If the repository is cloned locally:
+```bash
+docker pull m5teja/protocol-assistant:latest
+
 docker run -d \
   -p 8000:8000 \
   --env-file .env \
