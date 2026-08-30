@@ -1,5 +1,5 @@
 # Stage 1: Build environment
-FROM python:3.13-slim AS builder
+FROM python:3.12-slim AS builder
 
 WORKDIR /app
 
@@ -10,10 +10,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Install python dependencies
 COPY requirements.txt .
+# Install CPU-only PyTorch first to prevent downloading 1GB+ of NVIDIA CUDA binaries
+RUN pip install --user --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
 RUN pip install --user --no-cache-dir -r requirements.txt
 
 # Stage 2: Runtime environment
-FROM python:3.13-slim
+FROM python:3.12-slim
 
 # Create a non-root user
 RUN groupadd -r appuser && useradd -r -g appuser appuser

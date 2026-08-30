@@ -156,13 +156,13 @@ docker run -d \
 
 ## Docker Hub Image Information
 The pre-built Docker image is available on Docker Hub.
-- **Repository:** `[YOUR_DOCKERHUB_USERNAME]/protocol-assistant`
+- **Repository:** `m5teja/protocol-assistant`
 - **Tag:** `latest`
 
 To pull and run the pre-built image:
 ```bash
-docker pull [YOUR_DOCKERHUB_USERNAME]/protocol-assistant:latest
-docker run -p 8000:8000 -e ANTHROPIC_API_KEY="your-key" [YOUR_DOCKERHUB_USERNAME]/protocol-assistant:latest
+docker pull m5teja/protocol-assistant:latest
+docker run -p 8000:8000 -e ANTHROPIC_API_KEY="your-key" m5teja/protocol-assistant:latest
 ```
 
 ## Known Limitations
