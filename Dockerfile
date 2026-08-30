@@ -17,13 +17,13 @@ RUN pip install --user --no-cache-dir -r requirements.txt
 # Stage 2: Runtime environment
 FROM python:3.12-slim
 
-# Create a non-root user
-RUN groupadd -r appuser && useradd -r -g appuser appuser
+# Create a non-root user with a home directory
+RUN groupadd -r appuser && useradd -r -m -g appuser appuser
 
 WORKDIR /app
 
-# Copy python dependencies from builder
-COPY --from=builder /root/.local /home/appuser/.local
+# Copy python dependencies from builder with proper ownership
+COPY --chown=appuser:appuser --from=builder /root/.local /home/appuser/.local
 
 # Ensure local bin is on PATH and set env vars
 ENV PATH=/home/appuser/.local/bin:$PATH
@@ -38,12 +38,19 @@ COPY --chown=appuser:appuser static/ ./static/
 # Production containers should receive config via environment variables
 # or mounted volumes, not baked-in files.
 
+# Set explicit HuggingFace cache directory and create it with proper permissions
+ENV HF_HOME=/app/hf_cache
+RUN mkdir -p /app/hf_cache && chown appuser:appuser /app/hf_cache
+
 # Create chroma directory with proper permissions
 RUN mkdir -p chroma_data && chown appuser:appuser chroma_data
 VOLUME /app/chroma_data
 
 # Switch to non-root user
 USER appuser
+
+# Pre-download the embedding model into the container image cache
+RUN HF_HUB_OFFLINE=0 python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
 
 # Expose port
 EXPOSE 8000
