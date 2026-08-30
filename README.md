@@ -18,7 +18,7 @@ Protocol Assistant is a specialized, AI-powered Retrieval-Augmented Generation (
 - **Graceful Degradation:** Real-time health API monitoring and robust error handling that allows the user to retry failed requests with a different model without losing conversation context.
 
 ## Technology Stack
-- **Backend Framework:** FastAPI (Python 3.13)
+- **Backend Framework:** FastAPI (Python 3.12+)
 - **Frontend:** Vanilla HTML, CSS, JavaScript
 - **Vector Database:** ChromaDB (Local, Persistent)
 - **Embeddings:** SentenceTransformers (`all-MiniLM-L6-v2`) via HuggingFace
@@ -162,7 +162,14 @@ The pre-built Docker image is available on Docker Hub.
 To pull and run the pre-built image:
 ```bash
 docker pull m5teja/protocol-assistant:latest
-docker run -p 8000:8000 -e ANTHROPIC_API_KEY="your-key" m5teja/protocol-assistant:latest
+
+# Run using your local .env file and persistent chroma_data volume:
+docker run -d \
+  -p 8000:8000 \
+  --env-file .env \
+  -v $(pwd)/chroma_data:/app/chroma_data \
+  --name protocol-assistant \
+  m5teja/protocol-assistant:latest
 ```
 
 ## Known Limitations
