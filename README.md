@@ -1,5 +1,29 @@
 # Protocol Assistant: IETF RFC Knowledge Base
 
+## Table of Contents
+- [Project Name](#project-name)
+- [Problem Statement](#problem-statement)
+- [Chatbot Use Case](#chatbot-use-case)
+- [Key Features](#key-features)
+- [Technology Stack](#technology-stack)
+- [Selected AI/ML Models](#selected-aiml-models)
+- [RAG Architecture](#rag-architecture)
+- [Data Sources](#data-sources)
+- [Embedding Approach](#embedding-approach)
+- [Vector Database/Retrieval Approach](#vector-databaseretrieval-approach)
+- [Project Architecture](#project-architecture)
+- [Code Modularity & Extensibility](#code-modularity--extensibility)
+- [Directory Structure](#directory-structure)
+- [API Information](#api-information)
+- [Local Setup Instructions](#local-setup-instructions)
+- [Environment Variables](#environment-variables)
+- [Docker Build Instructions](#docker-build-instructions)
+- [Docker Run Instructions](#docker-run-instructions)
+- [Docker Hub Image Information](#docker-hub-image-information)
+- [Modifying the App (Source Code or Data Changes)](#modifying-the-app-source-code-or-data-changes)
+- [Known Limitations](#known-limitations)
+- [Important Implementation Decisions](#important-implementation-decisions)
+
 ## Project Name
 **Protocol Assistant**
 
@@ -67,7 +91,7 @@ The application is strictly interface-driven, making it trivial to extend or swa
 
 ## Directory Structure
 ```
-cyberlex-india/
+IETF-RFC-Protocol-assistant/
 ├── app/
 │   ├── api/            # API endpoints (chat, health)
 │   ├── core/           # Config and DI dependencies
@@ -195,8 +219,8 @@ If you need to change the source code or update the RFCs data (e.g. adding or up
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/m5teja/cyberlex-india.git
-   cd cyberlex-india
+   git clone https://github.com/MS-Teja/IETF-RFC-Protocol-assistant.git
+   cd IETF-RFC-Protocol-assistant
    ```
 2. **Make your changes:** Add new PDFs to `data/rfcs/` or edit the Python source code.
 3. **Rebuild the image:**
