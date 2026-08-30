@@ -161,15 +161,19 @@ The pre-built Docker image is available on Docker Hub and is **100% self-contain
 - **Tag:** `latest`
 
 ### Option A: Standalone Run (No Git Clone Required)
-Evaluators can pull and run the container immediately with just an API key:
+Evaluators can pull and run the container immediately with their API keys:
 ```bash
 docker pull m5teja/protocol-assistant:latest
 
-# Run with Gemini:
-docker run -d -p 8000:8000 -e GOOGLE_API_KEY="your-google-api-key" --name protocol-assistant m5teja/protocol-assistant:latest
+# Recommended: Run with both keys (enables model switching and automatic fallback)
+docker run -d -p 8000:8000 \
+  -e ANTHROPIC_API_KEY="your-anthropic-api-key" \
+  -e GOOGLE_API_KEY="your-google-api-key" \
+  --name protocol-assistant \
+  m5teja/protocol-assistant:latest
 
-# Or run with Claude:
-docker run -d -p 8000:8000 -e ANTHROPIC_API_KEY="your-anthropic-api-key" --name protocol-assistant m5teja/protocol-assistant:latest
+# Or run with a single key (e.g. Gemini only):
+docker run -d -p 8000:8000 -e GOOGLE_API_KEY="your-google-api-key" --name protocol-assistant m5teja/protocol-assistant:latest
 ```
 
 ### Option B: Run with Cloned Repository (.env File)
