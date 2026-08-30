@@ -1,0 +1,26 @@
+[
+  {
+    "query": "What status code for a malformed request?",
+    "expected_document": "rfc9110",
+    "expected_section": "15.5.1",
+    "category": "http"
+  },
+  {
+    "query": "How does an OAuth client refresh an access token?",
+    "expected_document": "rfc6749",
+    "expected_section": "6",
+    "category": "oauth2"
+  },
+  {
+    "query": "Header compression difference, HTTP/2 vs HTTP/3?",
+    "expected_document": "rfc9114",
+    "expected_section": "4",
+    "category": "cross-doc"
+  },
+  {
+    "query": "What claims are required in a JWT?",
+    "expected_document": "rfc7519",
+    "expected_section": "4",
+    "category": "trap"
+  }
+]
